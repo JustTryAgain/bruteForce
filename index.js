@@ -1,28 +1,31 @@
-
 const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // functions
 function brute(maxLength) {
-
   for (let matrixLength = 0; matrixLength < maxLength; matrixLength++) {
-    let a = matrix(matrixLength);
+    let passMatrix = matrix(matrixLength);
     while (true) {
-      let Indx = getIndex(a, letters.length);
-      if (Indx == null) {
+      let pass = matrixToString(passMatrix);
+      if (login(pass)) {
+        return pass;
+      }
+
+      let index = getIndex(passMatrix, letters.length);
+      if (index === null) {
         break;
       }
-      let pass = matrixToString(increment(a, Indx));
-      if (login(pass)===true) {
-        return console.log('pass find is '+pass);
-      }
+
+      increment(passMatrix, index);
     }
   }
+
+  return null;
 }
 
 
 function login(pass) { //LOGIN
-  return pass === "AAA";
+  return pass === "A";
 }
 
 
@@ -38,21 +41,18 @@ function matrix(length) {
 
 
 function getIndex(matrix, arrLength) {
-  
   for (let i = Object.values(matrix).length - 1; i >= 0; i--) {
-    if (matrix[i]!==arrLength - 1) {
+    if (matrix[i] !== arrLength - 1) {
       return i;
     }
   }
+
   return null;
 }
 
 function increment(matrix, index) {
-  matrix[index]++;
 
-  // if (prevIndex === null || index === prevIndex) {
-  //   return matrix;
-  // }
+  matrix[index]++;
 
   for (let i = index + 1; i < Object.values(matrix).length; i++) {
     matrix[i] = 0;
@@ -61,7 +61,7 @@ function increment(matrix, index) {
   return matrix;
 }
 
-function matrixToString(matrix) { 
+function matrixToString(matrix) {
   const valuesArr = Object.values(matrix);
   let str = '';
 
@@ -72,7 +72,5 @@ function matrixToString(matrix) {
   return str;
 }
 
-
-
- brute(3);
+console.log(brute(2));
 
